@@ -1,0 +1,95 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --oep-slate: #0f172a;
+  --oep-emerald: #10b981;
+  --oep-copper: #f59e0b;
+  --oep-copper-dark: #b45309;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  ::selection {
+    background: var(--oep-emerald);
+    color: #fff;
+  }
+  :focus-visible {
+    outline: 2px solid var(--oep-emerald);
+    outline-offset: 2px;
+  }
+}
+
+@layer utilities {
+  /* Entrada escalonada del hero (award-style, sin librerías) */
+  @keyframes oep-rise {
+    from {
+      opacity: 0;
+      transform: translateY(26px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  .oep-rise {
+    animation: oep-rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .oep-rise {
+      animation: none;
+    }
+  }
+
+  /* Línea de scroll del hero */
+  @keyframes oep-drop {
+    0% {
+      transform: scaleY(0);
+      transform-origin: top;
+    }
+    45% {
+      transform: scaleY(1);
+      transform-origin: top;
+    }
+    55% {
+      transform: scaleY(1);
+      transform-origin: bottom;
+    }
+    100% {
+      transform: scaleY(0);
+      transform-origin: bottom;
+    }
+  }
+  .oep-scroll-line {
+    animation: oep-drop 2.2s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .oep-scroll-line {
+      animation: none;
+    }
+  }
+}
+
+@layer components {
+  /* Etiqueta small-caps del sistema (KPI cards, secciones) */
+  .oep-label {
+    @apply font-body text-[12px] font-semibold uppercase tracking-[0.08em];
+  }
+
+  /* Titular-hallazgo de gráficos */
+  .oep-headline {
+    @apply font-display font-semibold tracking-tight;
+  }
+
+  /* Línea de fuente obligatoria bajo cada gráfico */
+  .oep-source {
+    @apply font-mono text-[11px] text-slate-500;
+  }
+
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+}
