@@ -97,9 +97,9 @@ def main():
     y += 44
     draw.text((margin, y), '1993 – 2026 · T2', font=f_eyebrow, fill=SLATE)
     y += 68
-    draw.text((margin, y), 'Tres décadas de inversión,', font=f_title, fill=INK)
+    draw.text((margin, y), 'Tres décadas de permisos,', font=f_title, fill=INK)
     y += 88
-    draw.text((margin, y), 'permiso a permiso.', font=f_title_it, fill=EMERALD)
+    draw.text((margin, y), 'tiempo, inversión y empleo.', font=f_title_it, fill=EMERALD)
     y += 130
     draw.text((margin, y), '30.119 proyectos · US$ 1,05 BN declarados ante el SEIA',
               font=f_sub, fill=(51, 65, 85))

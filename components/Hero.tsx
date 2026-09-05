@@ -51,8 +51,8 @@ export default function Hero({ k }: { k: Kpis | null }) {
           className={`oep-headline mt-8 max-w-4xl text-[clamp(44px,7vw,100px)] leading-[1.02] tracking-tight ${RISE}`}
           style={{ animationDelay: '180ms' }}
         >
-          Tres décadas de inversión,{' '}
-          <em className="font-medium italic text-oep-emerald">permiso a permiso.</em>
+          Tres décadas de permisos,{' '}
+          <em className="font-medium italic text-oep-emerald">tiempo, inversión y empleo.</em>
         </h1>
         <p
           className={`mt-7 max-w-xl text-[17px] leading-7 text-oep-ink/70 lg:text-[19px] lg:leading-8 ${RISE}`}

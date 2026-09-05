@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'es_CL',
     siteName: 'OEP · Observatorio Económico de Permisos',
-    title: 'OEP · Tres décadas de inversión, permiso a permiso',
+    title: 'OEP · Tres décadas de permisos, tiempo, inversión y empleo',
     description:
       'Mapa vivo, rankings y perfiles de los 30.119 expedientes del SEIA (1993–2026-T2): regiones, sectores, titulares y tiempos de aprobación.',
     images: [{ url: '/og.jpg', width: 1200, height: 630, alt: 'Mapa de partículas: proyectos del SEIA en Chile' }],
