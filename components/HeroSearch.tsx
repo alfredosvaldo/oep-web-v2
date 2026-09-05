@@ -66,12 +66,12 @@ export default function HeroSearch() {
   };
 
   return (
-    <div ref={boxRef} className="relative mt-9 max-w-xl">
-      <label htmlFor="oep-buscar" className="oep-label text-slate-300">
+    <div ref={boxRef} className="relative mt-10 max-w-xl">
+      <label htmlFor="oep-buscar" className="oep-label text-[11px] text-oep-ink/55">
         Buscar en {index ? `${index.total.toLocaleString('es-CL')} ` : 'los '}expedientes
       </label>
-      <div className="mt-2 flex items-center gap-3 rounded-lg border border-white/20 bg-white/10 px-4 backdrop-blur-md transition-colors focus-within:border-oep-emerald">
-        <svg viewBox="0 0 20 20" className="h-4 w-4 shrink-0 text-slate-300" fill="none" aria-hidden="true">
+      <div className="mt-1 flex items-center gap-3 border-b-2 border-oep-ink/20 transition-colors duration-nav focus-within:border-oep-emerald">
+        <svg viewBox="0 0 20 20" className="h-4 w-4 shrink-0 text-oep-ink/45" fill="none" aria-hidden="true">
           <circle cx="9" cy="9" r="6" stroke="currentColor" strokeWidth="1.6" />
           <path d="m13.5 13.5 3.5 3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
         </svg>
@@ -94,15 +94,15 @@ export default function HeroSearch() {
             if (e.key === 'Escape') setOpen(false);
           }}
           placeholder="Proyecto, titular o región… (p. ej. Escondida, Enel, Antofagasta)"
-          className="w-full bg-transparent py-3.5 text-[15px] text-white placeholder:text-slate-400 focus:outline-none"
+          className="w-full bg-transparent py-3.5 text-[16px] text-oep-ink placeholder:text-oep-ink/40 focus:outline-none"
         />
-        {loading && <span className="font-mono text-[11px] text-slate-400">cargando…</span>}
+        {loading && <span className="font-mono text-[11px] text-slate-500">cargando…</span>}
       </div>
 
       {error && <p className="mt-2 text-[12px] text-oep-copper">No se pudo cargar el índice: {error}</p>}
 
       {open && value.trim().length >= 2 && index && (
-        <ul className="absolute inset-x-0 top-full z-30 mt-2 overflow-hidden rounded-lg border border-slate-200 bg-white text-oep-slate shadow-2xl">
+        <ul className="absolute inset-x-0 top-full z-30 mt-3 overflow-hidden rounded-xl border border-oep-line bg-oep-paper text-oep-ink shadow-xl shadow-oep-ink/10">
           {results.length === 0 && (
             <li className="px-4 py-3 text-[13px] text-slate-500">
               Sin resultados para «{value.trim()}»
@@ -113,7 +113,7 @@ export default function HeroSearch() {
               <button
                 type="button"
                 onClick={() => go(rec)}
-                className="block w-full px-4 py-3 text-left transition-colors hover:bg-slate-50"
+                className="block w-full px-4 py-3 text-left transition-colors hover:bg-oep-ink/5"
               >
                 <span className="block truncate text-[14px] font-medium">{rec.n}</span>
                 <span className="mt-0.5 block font-mono text-[11px] text-slate-500">

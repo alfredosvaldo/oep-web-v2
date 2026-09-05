@@ -13,9 +13,9 @@ import { fmtInt, fmtMM } from '@/lib/format';
 echarts.use([ScatterChart, GeoComponent, TooltipComponent, CanvasRenderer]);
 
 const EG_COLOR: Record<number, string> = {
-  0: '#10B981',
-  1: '#F59E0B',
-  2: '#B45309',
+  0: '#0E9F6E',
+  1: '#C2703D',
+  2: '#9A5830',
   3: '#64748B',
   4: '#CBD5E1',
 };
@@ -68,8 +68,8 @@ export default function MapExplorer() {
           const [, , mmu, egi, anio] = d.value;
           return [
             `<div style="max-width:260px;font-weight:600;line-height:1.35">${geo.nombres[d.idx]}</div>`,
-            `<div style="margin-top:6px;font-family:'Roboto Mono',monospace;font-size:11px;color:#CBD5E1">${EG_LABEL[egi]} · presentado ${anio}</div>`,
-            `<div style="font-family:'Roboto Mono',monospace;font-size:11px;color:#CBD5E1">US$ ${fmtMM(mmu)} MM</div>`,
+            `<div style="margin-top:6px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:#CBD5E1">${EG_LABEL[egi]} · presentado ${anio}</div>`,
+            `<div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#CBD5E1">US$ ${fmtMM(mmu)} MM</div>`,
           ].join('');
         },
       },

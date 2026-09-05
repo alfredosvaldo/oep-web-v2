@@ -3,15 +3,21 @@
 @tailwind utilities;
 
 :root {
-  --oep-slate: #0f172a;
-  --oep-emerald: #10b981;
-  --oep-copper: #f59e0b;
-  --oep-copper-dark: #b45309;
+  --oep-ink: #14171c;
+  --oep-paper: #faf8f5;
+  --oep-emerald: #0e9f6e;
+  --oep-copper: #c2703d;
+  --oep-line: rgba(20, 23, 28, 0.14);
+  --oep-line-light: rgba(255, 255, 255, 0.16);
 }
 
 @layer base {
   html {
     scroll-behavior: smooth;
+  }
+  body {
+    background-color: var(--oep-paper);
+    color: var(--oep-ink);
   }
   ::selection {
     background: var(--oep-emerald);
@@ -24,11 +30,11 @@
 }
 
 @layer utilities {
-  /* Entrada escalonada del hero (award-style, sin librerías) */
+  /* Entrada del hero: contenida, sin teatralidad */
   @keyframes oep-rise {
     from {
       opacity: 0;
-      transform: translateY(26px);
+      transform: translateY(14px);
     }
     to {
       opacity: 1;
@@ -36,10 +42,36 @@
     }
   }
   .oep-rise {
-    animation: oep-rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation: oep-rise 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
   }
   @media (prefers-reduced-motion: reduce) {
     .oep-rise {
+      animation: none;
+    }
+  }
+
+  /* Revelado al hacer scroll (lo dispara components/Reveal.tsx vía IO) */
+  @keyframes oep-reveal {
+    from {
+      opacity: 0;
+      transform: translateY(18px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  .oep-reveal {
+    opacity: 0;
+  }
+  .oep-reveal.is-in {
+    animation: oep-reveal 0.75s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .oep-reveal {
+      opacity: 1;
+    }
+    .oep-reveal.is-in {
       animation: none;
     }
   }
@@ -71,12 +103,28 @@
       animation: none;
     }
   }
+
+  /* Grano de impresión: textura sutil sobre el hero (SVG inline, sin requests) */
+  .oep-grain {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+    background-size: 160px 160px;
+  }
 }
 
 @layer components {
   /* Etiqueta small-caps del sistema (KPI cards, secciones) */
   .oep-label {
     @apply font-body text-[12px] font-semibold uppercase tracking-[0.08em];
+  }
+
+  /* Eyebrow editorial: numeración + regla hairline, en mono */
+  .oep-eyebrow {
+    @apply flex items-center gap-4 font-mono text-[11px] font-medium uppercase tracking-[0.18em] text-slate-500;
+  }
+  .oep-eyebrow::after {
+    content: '';
+    @apply h-px flex-1;
+    background: var(--oep-line);
   }
 
   /* Titular-hallazgo de gráficos */

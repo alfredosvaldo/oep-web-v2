@@ -29,8 +29,8 @@ export default function TrendChart({ anual, trimestral }: { anual: Year[]; trime
       type: 'bar',
       name: 'Proyectos presentados',
       data: proyectos,
-      itemStyle: { color: '#CBD5E1', borderRadius: [2, 2, 0, 0] },
-      emphasis: { itemStyle: { color: '#10B981' } },
+      itemStyle: { color: 'rgba(194,112,61,0.30)', borderRadius: [2, 2, 0, 0] },
+      emphasis: { itemStyle: { color: '#C2703D' } },
       yAxisIndex: 0,
       barMaxWidth: 22,
     };
@@ -38,7 +38,7 @@ export default function TrendChart({ anual, trimestral }: { anual: Year[]; trime
       type: 'line',
       name: 'Inversión declarada (US$ MM)',
       data: inversion,
-      itemStyle: { color: '#F59E0B' },
+      itemStyle: { color: '#0E9F6E' },
       lineStyle: { width: 2 },
       symbol: 'none',
       yAxisIndex: 1,
@@ -50,32 +50,54 @@ export default function TrendChart({ anual, trimestral }: { anual: Year[]; trime
       legend: { show: false },
       tooltip: {
         trigger: 'axis',
-        backgroundColor: '#0F172A',
+        backgroundColor: '#10141A',
         borderWidth: 0,
+        padding: [10, 12],
         textStyle: { color: '#F8FAFC', fontSize: 12, fontFamily: 'Inter, sans-serif' },
         valueFormatter: (v: number) => new Intl.NumberFormat('es-CL', { maximumFractionDigits: 0 }).format(v),
       },
       xAxis: {
         type: 'category',
         data: cats,
-        axisLine: { lineStyle: { color: '#E2E8F0' } },
+        axisLine: { lineStyle: { color: 'rgba(20,23,28,0.20)' } },
         axisTick: { show: false },
-        axisLabel: { color: '#64748B', fontSize: 11, fontFamily: "'Roboto Mono', monospace", interval: modo === 'trimestral' ? 11 : 3 },
+        axisLabel: {
+          color: 'rgba(20,23,28,0.55)',
+          fontSize: 11,
+          fontFamily: "'IBM Plex Mono', monospace",
+          interval: modo === 'trimestral' ? 11 : 3,
+        },
       },
       yAxis: [
         {
           type: 'value',
           name: 'proyectos',
-          nameTextStyle: { color: '#94A3B8', fontSize: 10, fontFamily: "'Roboto Mono', monospace" },
-          splitLine: { lineStyle: { color: '#F1F5F9' } },
-          axisLabel: { color: '#64748B', fontSize: 10, fontFamily: "'Roboto Mono', monospace" },
+          nameTextStyle: {
+            color: 'rgba(20,23,28,0.45)',
+            fontSize: 10,
+            fontFamily: "'IBM Plex Mono', monospace",
+          },
+          splitLine: { lineStyle: { color: 'rgba(20,23,28,0.08)' } },
+          axisLabel: {
+            color: 'rgba(20,23,28,0.55)',
+            fontSize: 10,
+            fontFamily: "'IBM Plex Mono', monospace",
+          },
         },
         {
           type: 'value',
           name: 'US$ MM',
-          nameTextStyle: { color: '#94A3B8', fontSize: 10, fontFamily: "'Roboto Mono', monospace" },
+          nameTextStyle: {
+            color: 'rgba(20,23,28,0.45)',
+            fontSize: 10,
+            fontFamily: "'IBM Plex Mono', monospace",
+          },
           splitLine: { show: false },
-          axisLabel: { color: '#64748B', fontSize: 10, fontFamily: "'Roboto Mono', monospace" },
+          axisLabel: {
+            color: 'rgba(20,23,28,0.55)',
+            fontSize: 10,
+            fontFamily: "'IBM Plex Mono', monospace",
+          },
         },
       ],
       series: [bar, line],
@@ -92,29 +114,31 @@ export default function TrendChart({ anual, trimestral }: { anual: Year[]; trime
 
   return (
     <div>
-      <div className="flex h-[380px] w-full rounded-lg border border-slate-200 bg-white lg:h-[420px]">
+      <div className="flex h-[380px] w-full rounded-[10px] border border-oep-line bg-white lg:h-[420px]">
         <div ref={ref} className="h-full w-full" role="img" aria-label="Gráfico de proyectos e inversión declarada por período" />
       </div>
-      <div className="mt-4 flex items-center gap-2">
-        {(['anual', 'trimestral'] as Modo[]).map((m) => (
-          <button
-            key={m}
-            type="button"
-            onClick={() => setModo(m)}
-            aria-pressed={modo === m}
-            className={`rounded-md px-3 py-1.5 text-[12px] font-semibold uppercase tracking-[0.08em] transition-colors duration-nav ${
-              modo === m ? 'bg-oep-slate text-white' : 'bg-slate-100 text-slate-500 hover:bg-slate-200'
-            }`}
-          >
-            {m}
-          </button>
-        ))}
-        <span className="ml-auto hidden items-center gap-4 text-[12px] text-slate-500 sm:flex">
+      <div className="mt-4 flex flex-wrap items-center gap-2">
+        <div className="inline-flex rounded-[10px] border border-oep-line p-0.5" role="group" aria-label="Frecuencia de la serie">
+          {(['anual', 'trimestral'] as Modo[]).map((m) => (
+            <button
+              key={m}
+              type="button"
+              onClick={() => setModo(m)}
+              aria-pressed={modo === m}
+              className={`rounded-[8px] px-3.5 py-1.5 font-mono text-[11px] font-medium uppercase tracking-[0.12em] transition-colors duration-nav ${
+                modo === m ? 'bg-oep-ink text-oep-paper' : 'text-oep-ink/55 hover:text-oep-ink'
+              }`}
+            >
+              {m}
+            </button>
+          ))}
+        </div>
+        <span className="ml-auto hidden items-center gap-4 text-[12px] text-oep-ink/60 sm:flex">
           <span className="flex items-center gap-1.5">
-            <span className="h-2.5 w-2.5 rounded-sm bg-slate-300" /> proyectos
+            <span className="h-2.5 w-2.5 rounded-[3px] bg-oep-copper/40" /> proyectos
           </span>
           <span className="flex items-center gap-1.5">
-            <span className="h-0.5 w-4 bg-oep-copper" /> inversión US$ MM
+            <span className="h-0.5 w-4 bg-oep-emerald" /> inversión US$ MM
           </span>
         </span>
       </div>

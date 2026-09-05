@@ -5,10 +5,16 @@ const config = {
     extend: {
       colors: {
         oep: {
-          slate: '#0F172A',
-          emerald: '#10B981',
-          copper: '#F59E0B',
-          copperDark: '#B45309',
+          // Tinta (texto sobre papel y bandas oscuras) y papel cálido (fondo base)
+          ink: '#14171C',
+          paper: '#FAF8F5',
+          line: 'rgba(20,23,28,0.14)',
+          lineLight: 'rgba(255,255,255,0.16)',
+          slate: '#10141A',
+          emerald: '#0E9F6E',
+          emeraldLight: '#34D399',
+          copper: '#C2703D',
+          copperDark: '#9A5830',
         },
         slate: {
           50: '#F8FAFC',
@@ -20,9 +26,9 @@ const config = {
         },
       },
       fontFamily: {
-        display: ['var(--font-grotesk)', 'sans-serif'],
+        display: ['var(--font-fraunces)', 'Georgia', 'serif'],
         body: ['var(--font-inter)', 'sans-serif'],
-        mono: ['var(--font-robotomono)', 'monospace'],
+        mono: ['var(--font-plexmono)', 'monospace'],
       },
       maxWidth: {
         content: '1440px',

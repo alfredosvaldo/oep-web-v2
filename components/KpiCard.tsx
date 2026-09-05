@@ -15,8 +15,8 @@ interface KpiCardProps {
 }
 
 /**
- * KPI card §4: etiqueta small-caps → cifra Space Grotesk + unidad explícita →
- * delta vs período previo → definición de una línea → pie técnico Roboto Mono.
+ * KPI card §4: etiqueta small-caps → cifra Fraunces + unidad explícita →
+ * delta vs período previo → definición de una línea → pie técnico IBM Plex Mono.
  */
 export default function KpiCard({
   label,

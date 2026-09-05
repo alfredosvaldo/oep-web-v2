@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react';
 import dynamic from 'next/dynamic';
+import Reveal from '@/components/Reveal';
 import { fetchAgg, type AggItem } from '@/lib/kpis';
 import { EG_LABEL, fetchChileOutline, fetchGeoPoints, VISTA_BBOX, type ChileOutline, type GeoPoints } from '@/lib/geo';
 import { fmtInt, fmtMM } from '@/lib/format';
@@ -10,9 +11,9 @@ import { fmtInt, fmtMM } from '@/lib/format';
 const ChileMap = dynamic(() => import('@/components/ChileMap'), { ssr: false });
 
 const EG_DOT: Record<number, string> = {
-  0: '#10B981',
-  1: '#F59E0B',
-  2: '#B45309',
+  0: '#0E9F6E',
+  1: '#C2703D',
+  2: '#9A5830',
   3: '#64748B',
   4: '#CBD5E1',
 };
@@ -22,8 +23,8 @@ const enVista = (lon: number, lat: number) =>
 
 function Skeleton() {
   return (
-    <div className="flex h-[420px] animate-pulse items-center justify-center rounded-lg border border-slate-200 bg-slate-50 lg:h-[560px]">
-      <p className="font-mono text-[12px] text-slate-500">Cargando mapa…</p>
+    <div className="flex h-[420px] animate-pulse items-center justify-center rounded-[10px] border border-oep-line bg-white lg:h-[560px]">
+      <p className="font-mono text-[12px] text-oep-ink/50">Cargando mapa…</p>
     </div>
   );
 }
@@ -76,74 +77,81 @@ export default function MapSection({ carteraMmu, carteraN }: { carteraMmu: numbe
   const maxCartera = Math.max(...regiones.map((r) => r.evaluacion_mmu), 1);
 
   return (
-    <section ref={ref} id="mapa" aria-label="Mapa de proyectos" className="border-b border-slate-200 bg-white">
+    <section ref={ref} id="mapa" aria-label="Mapa de proyectos" className="border-b border-oep-line bg-oep-paper">
       <div className="mx-auto max-w-content px-6 py-12 lg:px-10 lg:py-16">
-        <div className="flex flex-wrap items-baseline gap-x-6 gap-y-1">
-          <h2 className="oep-headline text-[24px] leading-7">US$ {fmtMM(carteraMmu)} siguen en evaluación</h2>
-          <p className="font-mono text-[12px] text-slate-500">
-            {fmtInt(carteraN)} proyectos en calificación · cada punto es un expediente SEIA
+        <Reveal>
+          <p className="oep-eyebrow">02 · El mapa de la cartera</p>
+          <div className="mt-4 flex flex-wrap items-baseline gap-x-6 gap-y-1">
+            <h2 className="oep-headline text-[28px] leading-8 lg:text-[34px] lg:leading-10">
+              US$ {fmtMM(carteraMmu)} siguen en evaluación
+            </h2>
+            <p className="font-mono text-[12px] text-oep-ink/50">
+              {fmtInt(carteraN)} proyectos en calificación · cada punto es un expediente SEIA
+            </p>
+          </div>
+          <p className="mt-3 max-w-2xl text-[15px] leading-6 text-oep-ink/70">
+            Tamaño del punto = inversión declarada. El cobre destaca lo que aún no tiene RCA: la
+            cartera viva del sistema.
           </p>
-        </div>
-        <p className="mt-2 max-w-2xl text-[14px] leading-6 text-slate-500">
-          Tamaño del punto = inversión declarada. El cobre destaca lo que aún no tiene RCA: la
-          cartera viva del sistema.
-        </p>
+        </Reveal>
 
         {error && (
-          <p role="alert" className="mt-8 rounded-lg border border-oep-copper bg-slate-50 p-4 text-[14px]">
+          <p role="alert" className="mt-8 rounded-[10px] border border-oep-copper/50 bg-white p-4 text-[14px] text-oep-copper-dark">
             No se pudieron cargar los datos: {error}
           </p>
         )}
 
-        <div className="mt-8 grid gap-8 lg:grid-cols-[1fr_320px]">
-          <div>
-            {!geo || !outline ? (
-              visible && !error ? (
-                <Skeleton />
+        <Reveal delay={120}>
+          <div className="mt-10 grid gap-8 lg:grid-cols-[1fr_320px]">
+            <div>
+              {!geo || !outline ? (
+                visible && !error ? (
+                  <Skeleton />
+                ) : (
+                  <div aria-hidden="true" className="hidden h-[560px] rounded-[10px] border border-oep-line bg-white lg:block" />
+                )
               ) : (
-                <div aria-hidden="true" className="hidden h-[560px] rounded-lg border border-slate-200 bg-slate-50 lg:block" />
-              )
-            ) : (
-              <div className="h-[420px] rounded-lg border border-slate-200 lg:h-[560px]">
-                <ChileMap geo={geo} vista={vista} outline={outline} />
-              </div>
-            )}
-            <ul className="mt-4 flex flex-wrap gap-x-5 gap-y-2">
-              {[0, 1, 2, 3, 4].map((eg) => (
-                <li key={eg} className="flex items-center gap-2 text-[12px] text-slate-500">
-                  <span className="h-2.5 w-2.5 rounded-full" style={{ background: EG_DOT[eg] }} />
-                  {EG_LABEL[eg]}
-                  <span className="font-mono tabular">{counts[eg] ? fmtInt(counts[eg]) : '—'}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
+                <div className="h-[420px] rounded-[10px] border border-oep-line bg-white lg:h-[560px]">
+                  <ChileMap geo={geo} vista={vista} outline={outline} />
+                </div>
+              )}
+              <ul className="mt-4 flex flex-wrap gap-x-5 gap-y-2">
+                {[0, 1, 2, 3, 4].map((eg) => (
+                  <li key={eg} className="flex items-center gap-2 text-[12px] text-oep-ink/60">
+                    <span className="h-2.5 w-2.5 rounded-full" style={{ background: EG_DOT[eg] }} />
+                    {EG_LABEL[eg]}
+                    <span className="font-mono tabular text-oep-ink/50">{counts[eg] ? fmtInt(counts[eg]) : '—'}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
 
-          <aside aria-label="Cartera en evaluación por región">
-            <h3 className="oep-label text-slate-500">Dónde está la cartera</h3>
-            <p className="mt-1 font-mono text-[11px] text-slate-500">Inversión en evaluación · US$ MM</p>
-            <ul className="mt-4 space-y-3">
-              {regiones.map((r) => (
-                <li key={r.slug}>
-                  <div className="flex items-baseline justify-between gap-3">
-                    <span className="truncate text-[13px] font-medium">{r.nombre}</span>
-                    <span className="font-mono text-[12px] tabular text-slate-500">{fmtMM(r.evaluacion_mmu)}</span>
-                  </div>
-                  <div className="mt-1 h-1.5 overflow-hidden rounded-full bg-slate-100">
-                    <div
-                      className="h-full rounded-full bg-oep-copper"
-                      style={{ width: `${Math.max((r.evaluacion_mmu / maxCartera) * 100, 1.5)}%` }}
-                    />
-                  </div>
-                </li>
-              ))}
-            </ul>
-            <p className="oep-source mt-6 border-t border-slate-200 pt-3">
-              Fuente: SEA. Cálculos OEP. Geografía: Natural Earth, vista continental
-              {excluidos > 0 ? ` (${fmtInt(excluidos)} proyectos insulares fuera de vista)` : ''}.
-            </p>
-          </aside>
-        </div>
+            <aside aria-label="Cartera en evaluación por región">
+              <h3 className="oep-label text-oep-ink/55">Dónde está la cartera</h3>
+              <p className="mt-1 font-mono text-[11px] text-oep-ink/45">Inversión en evaluación · US$ MM</p>
+              <ul className="mt-4 space-y-3">
+                {regiones.map((r) => (
+                  <li key={r.slug}>
+                    <div className="flex items-baseline justify-between gap-3">
+                      <span className="truncate text-[13px] font-medium">{r.nombre}</span>
+                      <span className="font-mono text-[12px] tabular text-oep-ink/50">{fmtMM(r.evaluacion_mmu)}</span>
+                    </div>
+                    <div className="mt-1 h-1.5 overflow-hidden rounded-full bg-oep-ink/10">
+                      <div
+                        className="h-full rounded-full bg-oep-copper"
+                        style={{ width: `${Math.max((r.evaluacion_mmu / maxCartera) * 100, 1.5)}%` }}
+                      />
+                    </div>
+                  </li>
+                ))}
+              </ul>
+              <p className="oep-source mt-6 border-t border-oep-line pt-3">
+                Fuente: SEA. Cálculos OEP. Geografía: Natural Earth, vista continental
+                {excluidos > 0 ? ` (${fmtInt(excluidos)} proyectos insulares fuera de vista)` : ''}.
+              </p>
+            </aside>
+          </div>
+        </Reveal>
       </div>
     </section>
   );

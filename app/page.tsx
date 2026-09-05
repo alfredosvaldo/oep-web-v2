@@ -8,6 +8,7 @@ import CountUp from '@/components/CountUp';
 import MapSection from '@/components/MapSection';
 import TrendSection from '@/components/TrendSection';
 import MegaprojectsSection from '@/components/MegaprojectsSection';
+import Reveal from '@/components/Reveal';
 import { fetchKpis, type Kpis } from '@/lib/kpis';
 import { fmtInt, fmtMM, fmtBN, fmtDeltaPct } from '@/lib/format';
 
@@ -33,32 +34,40 @@ function PulseStrip({ k }: { k: Kpis }) {
     },
   ];
   return (
-    <section id="pulso" aria-label="El pulso del trimestre" className="border-b border-slate-200 bg-white">
-      <div className="mx-auto max-w-content px-6 py-8 lg:px-10">
-        <div className="flex flex-wrap items-baseline gap-x-6 gap-y-1">
-          <h2 className="oep-headline text-[24px] leading-7">El pulso del trimestre</h2>
-          <p className="font-mono text-[12px] text-slate-500">{q.periodo} · vs. período previo</p>
-        </div>
-        <dl className="mt-6 grid grid-cols-2 gap-px overflow-hidden rounded-lg border border-slate-200 bg-slate-200 lg:grid-cols-4">
-          {cells.map((c) => (
-            <div key={c.label} className="bg-white p-5">
-              <dt className="oep-label text-slate-500">{c.label}</dt>
-              <dd className="mt-2 font-display text-[28px] font-semibold leading-8 tracking-tight tabular">
-                <CountUp value={c.value} format={c.fmt} />
-                {c.unit && <span className="ml-1.5 text-[13px] font-medium text-slate-500">{c.unit}</span>}
-              </dd>
-              {c.delta !== undefined && (
-                <dd
-                  className={`mt-1 text-[13px] font-medium tabular ${
-                    c.delta > 0 ? 'text-oep-emerald' : 'text-oep-copper-dark'
-                  }`}
-                >
-                  {fmtDeltaPct(c.delta)} <span className="font-normal text-slate-500">vs. {q.periodo === '2026-T2' ? '2026-T1' : 'período previo'}</span>
+    <section id="pulso" aria-label="El pulso del trimestre" className="border-b border-oep-line bg-oep-paper">
+      <div className="mx-auto max-w-content px-6 py-16 lg:px-10 lg:py-20">
+        <Reveal>
+          <p className="oep-eyebrow">01 · El pulso del trimestre</p>
+          <div className="mt-4 flex flex-wrap items-baseline gap-x-6 gap-y-1">
+            <h2 className="oep-headline text-[28px] leading-8 lg:text-[34px] lg:leading-10">
+              Lo que se presentó en {q.periodo}
+            </h2>
+            <p className="font-mono text-[12px] text-slate-500">vs. período previo</p>
+          </div>
+        </Reveal>
+        <Reveal delay={120}>
+          <dl className="mt-10 grid grid-cols-2 gap-x-8 border-t border-oep-line pt-8 lg:grid-cols-4">
+            {cells.map((c) => (
+              <div key={c.label} className="border-oep-line py-2 lg:border-l lg:pl-8 lg:first:border-l-0 lg:first:pl-0">
+                <dt className="oep-label text-[11px] text-oep-ink/55">{c.label}</dt>
+                <dd className="mt-2 font-display text-[28px] font-semibold leading-8 tracking-tight tabular">
+                  <CountUp value={c.value} format={c.fmt} />
+                  {c.unit && <span className="ml-1.5 text-[13px] font-medium text-slate-500">{c.unit}</span>}
                 </dd>
-              )}
-            </div>
-          ))}
-        </dl>
+                {c.delta !== undefined && (
+                  <dd
+                    className={`mt-1 text-[13px] font-medium tabular ${
+                      c.delta > 0 ? 'text-oep-emerald' : 'text-oep-copper-dark'
+                    }`}
+                  >
+                    {fmtDeltaPct(c.delta)}{' '}
+                    <span className="font-normal text-slate-500">vs. {q.periodo === '2026-T2' ? '2026-T1' : 'período previo'}</span>
+                  </dd>
+                )}
+              </div>
+            ))}
+          </dl>
+        </Reveal>
       </div>
     </section>
   );

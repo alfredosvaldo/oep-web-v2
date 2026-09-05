@@ -13,9 +13,9 @@ import { fmtInt, fmtMM } from '@/lib/format';
 echarts.use([ScatterChart, GeoComponent, TooltipComponent, CanvasRenderer]);
 
 const EG_COLOR: Record<number, string> = {
-  0: '#10B981', // Aprobado
-  1: '#F59E0B', // En evaluación
-  2: '#B45309', // Rechazado
+  0: '#0E9F6E', // Aprobado
+  1: '#C2703D', // En evaluación
+  2: '#9A5830', // Rechazado
   3: '#64748B', // Desistido-Caducado
   4: '#CBD5E1', // No calificado-No admitido
 };
@@ -79,15 +79,15 @@ export default function ChileMap({ geo, vista, outline, onHoverNombre }: Props) 
           const [lon, lat, mmu, eg, anio] = params.data.value;
           return [
             `<div style="max-width:260px;font-weight:600;line-height:1.35">${geo.nombres[params.data.idx]}</div>`,
-            `<div style="margin-top:6px;font-family:'Roboto Mono',monospace;font-size:11px;color:#CBD5E1">${EG_LABEL[eg]} · presentado ${anio}</div>`,
-            `<div style="font-family:'Roboto Mono',monospace;font-size:11px;color:#CBD5E1">US$ ${fmtMM(mmu)} MM · ${Math.abs(lat).toFixed(1)}°${lat < 0 ? 'S' : 'N'} ${Math.abs(lon).toFixed(1)}°${lon < 0 ? 'O' : 'E'}</div>`,
+            `<div style="margin-top:6px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:#CBD5E1">${EG_LABEL[eg]} · presentado ${anio}</div>`,
+            `<div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#CBD5E1">US$ ${fmtMM(mmu)} MM · ${Math.abs(lat).toFixed(1)}°${lat < 0 ? 'S' : 'N'} ${Math.abs(lon).toFixed(1)}°${lon < 0 ? 'O' : 'E'}</div>`,
           ].join('');
         },
       },
       geo: {
         map: 'Chile',
         silent: true,
-        itemStyle: { areaColor: '#F8FAFC', borderColor: '#CBD5E1', borderWidth: 0.6 },
+        itemStyle: { areaColor: '#FFFFFF', borderColor: 'rgba(20,23,28,0.22)', borderWidth: 0.6 },
         aspectScale: 0.82,
       },
       series,

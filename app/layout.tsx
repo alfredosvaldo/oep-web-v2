@@ -1,11 +1,12 @@
 import type { Metadata } from 'next';
-import { Space_Grotesk, Inter, Roboto_Mono } from 'next/font/google';
+import { Fraunces, Inter, IBM_Plex_Mono } from 'next/font/google';
 import './globals.css';
 
-const grotesk = Space_Grotesk({
+const fraunces = Fraunces({
   subsets: ['latin'],
-  weight: ['500', '600', '700'],
-  variable: '--font-grotesk',
+  weight: ['400', '500', '600', '700'],
+  style: ['normal', 'italic'],
+  variable: '--font-fraunces',
   display: 'swap',
 });
 
@@ -16,10 +17,10 @@ const inter = Inter({
   display: 'swap',
 });
 
-const robotoMono = Roboto_Mono({
+const plexMono = IBM_Plex_Mono({
   subsets: ['latin'],
   weight: ['400', '500'],
-  variable: '--font-robotomono',
+  variable: '--font-plexmono',
   display: 'swap',
 });
 
@@ -51,8 +52,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es" className={`${grotesk.variable} ${inter.variable} ${robotoMono.variable}`}>
-      <body className="bg-white font-body text-oep-slate antialiased">{children}</body>
+    <html lang="es" className={`${fraunces.variable} ${inter.variable} ${plexMono.variable}`}>
+      <body className="bg-oep-paper font-body text-oep-ink antialiased">{children}</body>
     </html>
   );
 }
