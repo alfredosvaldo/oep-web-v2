@@ -8,8 +8,9 @@ const NAV = [
   { href: '/', label: 'Inicio' },
   { href: '/explorador/', label: 'Explorador' },
   { href: '/mapa/', label: 'Mapa' },
-  { href: '/perfiles/', label: 'Perfiles' },
+  { href: '/perfiles/', label: 'Actores y territorio' },
   { href: '/rankings/', label: 'Rankings' },
+  { href: '/informes/', label: 'Informes' },
   { href: '/datos-metodologia/', label: 'Datos y Metodología' },
 ];
 
@@ -48,7 +49,7 @@ export default function Header() {
         <Link href="/" className="flex items-center gap-3 text-oep-ink">
           <Logo />
           <span className="font-display text-[17px] font-semibold tracking-tight">
-            OEP <span className="hidden text-oep-ink/55 sm:inline">· Observatorio Económico de Permisos</span>
+            OEP <span className="hidden text-oep-ink/55 xl:inline">· Observatorio Económico de Permisos</span>
           </span>
         </Link>
         <nav aria-label="Navegación principal" className="ml-auto hidden items-center gap-1 lg:flex">
@@ -74,7 +75,7 @@ export default function Header() {
             );
           })}
         </nav>
-        <span className="hidden font-mono text-[11px] tracking-wide text-oep-ink/50 md:inline">1993–2026 · T2</span>
+        <span className="hidden font-mono text-[11px] tracking-wide text-oep-ink/50 lg:inline">1993–2026 · T2</span>
       </div>
     </header>
   );

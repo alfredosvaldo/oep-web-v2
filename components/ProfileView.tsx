@@ -113,7 +113,7 @@ export default function ProfileView({ p }: { p: Profile }) {
       <div className="mx-auto max-w-content px-6 py-12 lg:px-10">
         <nav aria-label="Miga de pan" className="font-mono text-[12px] text-slate-500">
           <Link href="/perfiles/" className="hover:underline">
-            Perfiles
+            Actores y territorio
           </Link>
           {' / '}
           {TIPO_LABEL[p.tipo]}

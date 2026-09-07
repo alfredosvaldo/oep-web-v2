@@ -4,38 +4,68 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import Reveal from '@/components/Reveal';
 import { fetchAgg, type AggItem } from '@/lib/kpis';
 import { fmtInt, fmtMM } from '@/lib/format';
 
-function CardGrid({ titulo, items, prefix }: { titulo: string; items: AggItem[]; prefix: string }) {
+function EditorialList({ items, prefix, numbered = true }: { items: AggItem[]; prefix: string; numbered?: boolean }) {
   return (
-    <section>
-      {titulo && <h2 className="oep-label text-slate-500">{titulo}</h2>}
-      <ul className={`grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 ${titulo ? 'mt-4' : 'mt-0'}`}>
-        {items.map((it) => (
-          <li key={it.slug}>
-            <Link
-              href={`/perfiles/${prefix}${it.slug}/`}
-              className="group block rounded-lg border border-slate-200 bg-white p-4 transition-all duration-nav hover:-translate-y-0.5 hover:border-oep-emerald hover:shadow-md"
-            >
-              <span className="block truncate text-[15px] font-semibold group-hover:underline">{it.nombre}</span>
-              <span className="mt-1 block font-mono text-[12px] tabular text-slate-500">
+    <ol className="grid gap-x-12 sm:grid-cols-2">
+      {items.map((it, i) => (
+        <li key={it.slug}>
+          <Link
+            href={`/perfiles/${prefix}${it.slug}/`}
+            className="group grid grid-cols-[auto_1fr_auto] items-baseline gap-4 border-b border-oep-line px-2 py-3.5 transition-colors duration-nav hover:bg-oep-ink/5"
+          >
+            <span className="w-8 font-mono text-[11px] tabular text-slate-400">
+              {numbered ? String(i + 1).padStart(2, '0') : '·'}
+            </span>
+            <span className="min-w-0">
+              <span className="block truncate text-[16px] font-medium tracking-tight group-hover:underline">
+                {it.nombre}
+              </span>
+              <span className="mt-0.5 block font-mono text-[11px] tabular text-slate-500">
                 {fmtInt(it.proyectos)} proyectos · US$ {fmtMM(it.inversion_mmu)} MM
               </span>
-              {it.evaluacion_n > 0 && (
-                <span className="mt-2 inline-block rounded bg-oep-copper/10 px-1.5 py-0.5 font-mono text-[10px] text-oep-copper-dark">
-                  {fmtInt(it.evaluacion_n)} en evaluación
-                </span>
-              )}
-            </Link>
-          </li>
-        ))}
-      </ul>
+            </span>
+            <span className="font-mono text-[12px] text-slate-400 transition-transform duration-nav group-hover:translate-x-1 group-hover:text-oep-emerald">
+              →
+            </span>
+          </Link>
+        </li>
+      ))}
+    </ol>
+  );
+}
+
+function Seccion({
+  eyebrow,
+  titulo,
+  descripcion,
+  children,
+}: {
+  eyebrow: string;
+  titulo: string;
+  descripcion?: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <section>
+      <Reveal>
+        <p className="oep-eyebrow">{eyebrow}</p>
+        <div className="mt-4 flex flex-wrap items-baseline gap-x-6 gap-y-1">
+          <h2 className="oep-headline text-[26px] leading-8 lg:text-[30px] lg:leading-9">{titulo}</h2>
+          {descripcion && <p className="max-w-xl text-[14px] leading-6 text-oep-ink/60">{descripcion}</p>}
+        </div>
+      </Reveal>
+      <Reveal delay={120} className="mt-8">
+        {children}
+      </Reveal>
     </section>
   );
 }
 
-export default function Perfiles() {
+export default function ActoresYTerritorio() {
   const [regiones, setRegiones] = useState<AggItem[] | null>(null);
   const [sectores, setSectores] = useState<AggItem[] | null>(null);
   const [titulares, setTitulares] = useState<AggItem[] | null>(null);
@@ -55,42 +85,67 @@ export default function Perfiles() {
     <>
       <Header />
       <main className="min-h-screen pt-16">
-        <div className="mx-auto max-w-content space-y-12 px-6 py-12 lg:px-10">
-          <div>
-            <div className="flex flex-wrap items-baseline gap-x-6 gap-y-1">
-              <h1 className="oep-headline text-[32px] leading-9">Perfiles</h1>
-              <p className="font-mono text-[12px] text-slate-500">una ficha por región, sector y titular</p>
-            </div>
-            <p className="mt-2 max-w-2xl text-[14px] leading-6 text-slate-500">
-              Cada perfil cruza la actividad del SEIA con su serie anual, sus principales actores y sus
-              expedientes recientes.
+        <div className="mx-auto max-w-content space-y-20 px-6 py-16 lg:px-10 lg:py-20">
+          <Reveal>
+            <p className="oep-eyebrow">Actores y territorio</p>
+            <h1 className="oep-headline mt-6 max-w-3xl text-[clamp(36px,5vw,64px)] leading-[1.05] tracking-tight">
+              Quién presenta, dónde, y en qué.
+            </h1>
+            <p className="mt-5 max-w-2xl text-[16px] leading-7 text-oep-ink/70">
+              Tres cortes del mismo registro: las regiones donde se instala la inversión, los sectores
+              que la ejecutan y los titulares que firman los expedientes. Cada ficha cruza la serie
+              anual, los principales actores y los proyectos recientes.
             </p>
-          </div>
+          </Reveal>
 
           {error && (
-            <p role="alert" className="rounded-lg border border-oep-copper bg-slate-50 p-4 text-[14px]">
+            <p role="alert" className="border border-oep-copper bg-oep-copper/5 p-4 text-[14px] text-oep-copper-dark">
               No se pudieron cargar los datos: {error}
             </p>
           )}
 
           {!regiones && !error && (
-            <div className="flex h-48 animate-pulse items-center justify-center rounded-lg border border-slate-200 bg-slate-50">
-              <p className="font-mono text-[12px] text-slate-500">Cargando perfiles…</p>
+            <div className="flex h-48 animate-pulse items-center justify-center rounded-[10px] border border-oep-line bg-white">
+              <p className="font-mono text-[12px] text-slate-500">Cargando el índice…</p>
             </div>
           )}
 
-          {regiones && <CardGrid titulo="Regiones" items={regiones} prefix="region-" />}
-          {sectores && <CardGrid titulo="Sectores" items={sectores} prefix="sector-" />}
+          {regiones && (
+            <Seccion
+              eyebrow="17 territorios"
+              titulo="Regiones"
+              descripcion="Del extremes norte a Magallanes: actividad acumulada y cartera en evaluación por región."
+            >
+              <EditorialList items={regiones} prefix="region-" />
+            </Seccion>
+          )}
+
+          {sectores && (
+            <Seccion
+              eyebrow="14 sectores"
+              titulo="Sectores"
+              descripcion="Energía, minería, saneamiento y el resto de la tipología del SEIA."
+            >
+              <EditorialList items={sectores} prefix="sector-" />
+            </Seccion>
+          )}
+
           {titulares && (
-            <section>
-              <div className="flex items-baseline gap-4">
-                <h2 className="oep-label text-slate-500">Titulares líderes</h2>
-                <Link href="/rankings/" className="font-mono text-[12px] text-slate-500 hover:underline">
-                  ver los 10.512 en rankings →
+            <Seccion
+              eyebrow="Titulares"
+              titulo="Quienes más construyen"
+              descripcion="Los doce titulares con mayor inversión declarada; el resto del universo está en Rankings."
+            >
+              <EditorialList items={titulares} prefix="titular-" numbered={false} />
+              <p className="mt-6">
+                <Link
+                  href="/rankings/"
+                  className="font-mono text-[12px] text-oep-ink/60 underline decoration-oep-line underline-offset-4 transition-colors hover:text-oep-emerald"
+                >
+                  ver los 10.514 titulares en Rankings →
                 </Link>
-              </div>
-              <CardGrid titulo="" items={titulares} prefix="titular-" />
-            </section>
+              </p>
+            </Seccion>
           )}
         </div>
       </main>
